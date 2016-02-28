@@ -1,9 +1,9 @@
 
 
-class SKOSConcept():
+class SKOSConcept(object):
 	"""
 	Concepts in SKOS are the units of thought, ideas, meanings,
-	or (categories of) objects and events which underlie 
+	or (categories of) objects and events which underlie
 	many knowledge organization systems.
 	"""
 	def __init__(self, uri, endpoint):
@@ -14,12 +14,12 @@ class SKOSConcept():
 		self.endpoint = endpoint
 
 	def get_preflabels(self):
-		""" 
-		Preferred lexical label(s). Only one, but may be translated. 
-		
+		"""
+		Preferred lexical label(s). Only one, but may be translated.
+
 		Returns:
 			A list of tuples ("label", "lang").
-			Languages represented as ISO codes.		
+			Languages represented as ISO codes.
 		"""
 		q1 = '''
 			 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
@@ -37,7 +37,7 @@ class SKOSConcept():
 		if ret["results"]["bindings"]:
 			self.pref_labels = []
 			for row in ret["results"]["bindings"]:
-				self.pref_labels.append([row["lbl"]["value"], 
+				self.pref_labels.append([row["lbl"]["value"],
 										 row["lbl"]["xml:lang"]])
 		else:
 			self.pref_labels = None
@@ -46,10 +46,10 @@ class SKOSConcept():
 
 	def get_altlabels(self):
 		""" Synonyms, near-synonyms, abbreviations and acronyms.
-			
+
 			Returns:
 			A list of tuples ("label", "lang").
-			Languages represented as ISO codes.	
+			Languages represented as ISO codes.
 
 		"""
 		q1 = '''
@@ -68,15 +68,15 @@ class SKOSConcept():
 		if ret["results"]["bindings"]:
 			self.alt_labels = []
 			for row in ret["results"]["bindings"]:
-				self.alt_labels.append([row["lbl"]["value"], 
+				self.alt_labels.append([row["lbl"]["value"],
 										 row["lbl"]["xml:lang"]])
 		else:
 			self.alt_labels = None
 		return self.alt_labels
 
 	def get_hiddenlabels(self):
-		"""  Accessible to applications performing text-based indexing 
-		     and search operations, but would not like that label to 
+		"""  Accessible to applications performing text-based indexing
+		     and search operations, but would not like that label to
 		     be visible otherwise.
 
 
@@ -97,7 +97,7 @@ class SKOSConcept():
 		if ret["results"]["bindings"]:
 			self.hidden_labels = []
 			for row in ret["results"]["bindings"]:
-				self.hidden_labels.append([row["lbl"]["value"], 
+				self.hidden_labels.append([row["lbl"]["value"],
 										 row["lbl"]["xml:lang"]])
 		else:
 			self.hidden_labels = None
@@ -106,12 +106,12 @@ class SKOSConcept():
 
 	def get_concepts(self, prop):
 		"""
-			Returns a list of concepts related by property prop. 
+			Returns a list of concepts related by property prop.
 		"""
 		q = ('''
 			 PREFIX skos: <http://www.w3.org/2004/02/skos/core#>
 			 SELECT ?c
-			 { 
+			 {
 			     ?c a skos:Concept .
 			     <'''+ self.uri +'> '+ prop + ' ?c.}'
 			)
@@ -124,22 +124,22 @@ class SKOSConcept():
 			return r
 		else:
 			return None
-	
+
 
 	def get_narrower(self):
 		"""
-			Returns a list of skos:narrower concepts. 
+			Returns a list of skos:narrower concepts.
 		"""
 		return self.get_concepts("skos:narrower")
 
 	def get_related(self):
 		"""
-			Returns a list of skos:related concepts. 
+			Returns a list of skos:related concepts.
 		"""
 		return self.get_concepts("skos:related")
 
 	def get_broader(self):
 		"""
-			Returns a list of skos:broader concepts. 
+			Returns a list of skos:broader concepts.
 		"""
 		return self.get_concepts("skos:broader")
