@@ -2,7 +2,7 @@ SKOS: W3C SKOS for humans
 ==========================
 
 
-SKOS is a lightweight `W3C SKOS<https://www.w3.org/2004/02/skos/>`
+SKOS is a lightweight `W3C SKOS <https://www.w3.org/2004/02/skos/>`_
 client library written in Python.
 
 It has been designed for conveniently retrieving data from
@@ -29,7 +29,7 @@ Installation
 
 Dependencies:
 
-* `sparqlwrapper <https://github.com/RDFLib/sparqlwrapper`
+* `sparqlwrapper <https://github.com/RDFLib/sparqlwrapper>`_
 
 
 
